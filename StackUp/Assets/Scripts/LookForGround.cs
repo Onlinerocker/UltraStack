@@ -11,6 +11,7 @@ public class LookForGround : MonoBehaviour
     private Camera cam;
     private ScoreHandler score;
     private Text loseTxt;
+    private Text highScoreTxt;
     private GameObject replayBtn;
     private SpawnHandler spawn;
 
@@ -26,10 +27,11 @@ public class LookForGround : MonoBehaviour
         cam = GameObject.FindObjectOfType<Camera>();
         score = GameObject.FindObjectOfType<ScoreHandler>();
         loseTxt = GameObject.FindGameObjectWithTag("txtLose").GetComponent<Text>();
+        highScoreTxt = GameObject.FindGameObjectWithTag("txtHighScore").GetComponent<Text>();
         replayBtn = GameObject.FindGameObjectWithTag("btnLose");
         spawn = GameObject.FindObjectOfType<SpawnHandler>();
 
-        losePos = new Vector3(0, 1, -13.12f);
+        losePos = new Vector3(0, 4, -13.12f);
 
         done = false;
         moved = false;
@@ -67,12 +69,25 @@ public class LookForGround : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!first && collision.gameObject.tag == "ground")
+        if (spawn.getCanSpawn() && !first && collision.gameObject.tag == "ground")
         {
             lose = true;
             done = true;
             moved = false;
             spawn.setCanSpawn(false);
+
+            if(score.getScore() > score.getHighScore())
+            {
+                score.setHighScore(score.getScore());
+                highScoreTxt.text = "new high score!\n" + score.getHighScore();
+                highScoreTxt.gameObject.GetComponent<Emphasize>().setStart(true);
+            }
+            else
+            {
+                highScoreTxt.text = "High Score:\n" + score.getHighScore();
+                //highScoreTxt.gameObject.GetComponent<Emphasize>().setStart(true);
+            }
+
             return;
         }
 
@@ -81,9 +96,10 @@ public class LookForGround : MonoBehaviour
             this.GetComponent<Move>().setCanMove(false);
 
             int rand = Random.Range(0, blocks.Length);
-            GameObject.Instantiate(blocks[rand], new Vector3(Random.Range(-2.5f, 2.5f), cam.gameObject.transform.position.y + 10, 0), Quaternion.Euler(0,0,0));
+            int rot = Random.Range(0, 4);
+            GameObject.Instantiate(blocks[rand], new Vector3(Random.Range(-2.5f, 2.5f), cam.gameObject.transform.position.y + 10, 0), Quaternion.Euler(0,0,90 * rot));
             done = true;
-            newPos = new Vector3(cam.gameObject.transform.position.x, this.transform.position.y + 1, cam.gameObject.transform.position.z);
+            newPos = new Vector3(cam.gameObject.transform.position.x, this.transform.position.y + 4, cam.gameObject.transform.position.z);
             score.increaseScore(Mathf.Ceil(this.transform.position.y - score.getScore()));
             latest = false;
             //cam.gameObject.transform.Translate(new Vector3(0, 10.0f, 0) * Time.deltaTime, Space.World);

@@ -7,6 +7,7 @@ TagManager:
   - ground
   - txtLose
   - btnLose
+  - txtHighScore
   layers:
   - Default
   - TransparentFX

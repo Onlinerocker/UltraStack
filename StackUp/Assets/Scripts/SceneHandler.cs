@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class SceneHandler : MonoBehaviour
 {
     public Text gameOver;
+    public Text highScore;
     public Button replayBtn;
     public ScoreHandler score;
     public GameObject cube;
@@ -20,6 +21,8 @@ public class SceneHandler : MonoBehaviour
         //set score to zero
 
         gameOver.text = "";
+        highScore.text = "";
+        highScore.gameObject.GetComponent<Emphasize>().setStart(false);
         replayBtn.transform.parent.position = new Vector3(2000, 0, 0);
 
         foreach(Move obj in GameObject.FindObjectsOfType<Move>())
@@ -28,7 +31,8 @@ public class SceneHandler : MonoBehaviour
         }
 
         spawn.setCanSpawn(true);
-        GameObject.Instantiate(cube, new Vector3(Random.Range(-2.5F, 2.5f), 6.81f, 0), Quaternion.Euler(0, 0, 0));
+        int rot = Random.Range(0, 4);
+        GameObject.Instantiate(cube, new Vector3(Random.Range(-2.5F, 2.5f), 15f, 0), Quaternion.Euler(0, 0, 90 * rot));
         score.setScore(0);
     }
 
