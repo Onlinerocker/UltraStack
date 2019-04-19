@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using UnityEngine.Advertisements;
 
 public class SceneHandler : MonoBehaviour
 {
@@ -14,18 +15,43 @@ public class SceneHandler : MonoBehaviour
     public SpawnHandler spawn;
     public string scene;
 
+    private int adInd;
+
+    public void Start()
+    {
+        adInd = 0;
+    }
+
     public void replayGame()
     {
         //get rid of cubes
         //spawn new one above
         //set score to zero
+        if(adInd % 5 == 0 || adInd == 0)
+        {
+            ShowOptions options = new ShowOptions { resultCallback = handleShowResult };
+            Advertisement.Show(options);
+        }
+        else
+        {
+            startGame();
+        }
+        adInd++;
+    }
 
+    public void changeScene()
+    {
+        SceneManager.LoadScene(scene);
+    }
+
+    private void startGame()
+    {
         gameOver.text = "";
         highScore.text = "";
         highScore.gameObject.GetComponent<Emphasize>().setStart(false);
-        replayBtn.transform.parent.position = new Vector3(2000, 0, 0);
+        replayBtn.transform.parent.position = new Vector3(100000, 0, 0);
 
-        foreach(Move obj in GameObject.FindObjectsOfType<Move>())
+        foreach (Move obj in GameObject.FindObjectsOfType<Move>())
         {
             Destroy(obj.gameObject);
         }
@@ -36,8 +62,19 @@ public class SceneHandler : MonoBehaviour
         score.setScore(0);
     }
 
-    public void changeScene()
+    private void handleShowResult(ShowResult result)
     {
-        SceneManager.LoadScene(scene);
+        switch (result)
+        {
+            case ShowResult.Finished:
+                startGame();
+                break;
+            case ShowResult.Skipped:
+                startGame();
+                break;
+            case ShowResult.Failed:
+                startGame();
+                break;
+        }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Advertisements;
 
 public class LookForGround : MonoBehaviour
 {
@@ -69,27 +70,6 @@ public class LookForGround : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (spawn.getCanSpawn() && !first && collision.gameObject.tag == "ground")
-        {
-            lose = true;
-            done = true;
-            moved = false;
-            spawn.setCanSpawn(false);
-
-            if(score.getScore() > score.getHighScore())
-            {
-                score.setHighScore(score.getScore());
-                highScoreTxt.text = "new high score!\n" + score.getHighScore();
-                highScoreTxt.gameObject.GetComponent<Emphasize>().setStart(true);
-            }
-            else
-            {
-                highScoreTxt.text = "High Score:\n" + score.getHighScore();
-                //highScoreTxt.gameObject.GetComponent<Emphasize>().setStart(true);
-            }
-
-            return;
-        }
 
         if (spawn.getCanSpawn() && !done)
         {
@@ -109,4 +89,30 @@ public class LookForGround : MonoBehaviour
             
         //spawn new guy
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (spawn.getCanSpawn() && other.gameObject.tag == "ground")
+        {
+            lose = true;
+            done = true;
+            moved = false;
+            spawn.setCanSpawn(false);
+
+            if (score.getScore() > score.getHighScore())
+            {
+                score.setHighScore(score.getScore());
+                highScoreTxt.text = "new high score!\n" + score.getHighScore();
+                highScoreTxt.gameObject.GetComponent<Emphasize>().setStart(true);
+            }
+            else
+            {
+                highScoreTxt.text = "High Score:\n" + score.getHighScore();
+                //highScoreTxt.gameObject.GetComponent<Emphasize>().setStart(true);
+            }
+
+            return;
+        }
+    }
+        
 }

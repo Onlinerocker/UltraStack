@@ -15,7 +15,7 @@ public class ScoreHandler : MonoBehaviour
         score.text = "0";
         scoreVal = 0f;
 
-        PlayerPrefs.SetFloat("score", 0);
+        //PlayerPrefs.SetFloat("score", 0);
 
         if (PlayerPrefs.HasKey("score"))
         {
@@ -24,6 +24,7 @@ public class ScoreHandler : MonoBehaviour
         else
         {
             highScore = 0;
+            PlayerPrefs.SetFloat("score", 0);
         }
     }
 

@@ -24,6 +24,8 @@ public class Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+
         if(canMove && Input.touchCount > 0)
         {
             Touch touch = Input.GetTouch(0);
@@ -39,23 +41,28 @@ public class Move : MonoBehaviour
             {
                 moving = true;
 
-                if(Vector3.Distance(sTouch, touch.position) > 10)
-                {
-                    Vector3 screen = Camera.main.WorldToScreenPoint(this.transform.position);
-                    Vector3 newPoint = new Vector3(touch.position.x + offset, screen.y, screen.z);
-                    Vector3 newWorld = Camera.main.ScreenToWorldPoint(newPoint);
+                Vector3 screen = Camera.main.WorldToScreenPoint(this.transform.position);
+                Vector3 newPoint = new Vector3(touch.position.x + offset, screen.y, screen.z);
+                Vector3 newWorld = Camera.main.ScreenToWorldPoint(newPoint);
 
-                    this.transform.position = newWorld;
-                }
+                this.transform.position = newWorld;
             }
 
             if(touch.phase == TouchPhase.Ended)
             {
+                /*eTouch = touch.position;
+                if(Mathf.Abs(sTouch.x - eTouch.x) <= 10)
+                {
+                    this.transform.Rotate(new Vector3(0, 0, 90), Space.World);
+                }*/
+
                 eTouch = touch.position;
-                if(Vector3.Distance(sTouch, eTouch) <= 10)
+                if(canMove && Input.GetTouch(0).tapCount >= 1 && Mathf.Abs(sTouch.x - eTouch.x) <= 10)
                 {
                     this.transform.Rotate(new Vector3(0, 0, 90), Space.World);
                 }
+
+                time = 0;
             }
 
             /*if ((time <= 0.15f || moving == false) && touch.phase == TouchPhase.Ended)
