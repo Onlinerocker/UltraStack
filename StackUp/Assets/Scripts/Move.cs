@@ -43,9 +43,13 @@ public class Move : MonoBehaviour
 
                 Vector3 screen = Camera.main.WorldToScreenPoint(this.transform.position);
                 Vector3 newPoint = new Vector3(touch.position.x + offset, screen.y, screen.z);
-                Vector3 newWorld = Camera.main.ScreenToWorldPoint(newPoint);
 
-                this.transform.position = newWorld;
+                if(newPoint.x < Screen.width && newPoint.x > 0)
+                {
+                    Vector3 newWorld = Camera.main.ScreenToWorldPoint(newPoint);
+                    this.transform.position = newWorld;
+                }
+                
             }
 
             if(touch.phase == TouchPhase.Ended)

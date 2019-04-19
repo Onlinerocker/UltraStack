@@ -45,7 +45,6 @@ public class LookForGround : MonoBehaviour
         if (lose)
         {
             loseTxt.text = "Game Over";
-            replayBtn.gameObject.transform.localPosition = new Vector3(0, -392, 0);
 
             if (!moved)
             {
@@ -53,6 +52,7 @@ public class LookForGround : MonoBehaviour
                 if (cam.gameObject.transform.position == losePos)
                 {
                     moved = true;
+                    replayBtn.gameObject.transform.localPosition = new Vector3(0, -392, 0);
                 }
             }
             return;
