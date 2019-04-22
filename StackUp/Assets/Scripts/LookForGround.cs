@@ -38,6 +38,9 @@ public class LookForGround : MonoBehaviour
         moved = false;
         latest = true;
         lose = false;
+
+        if(!this.GetComponent<Move>().enabled)
+            this.GetComponent<Move>().enabled = true;
     }
 
     private void Update()
@@ -73,7 +76,13 @@ public class LookForGround : MonoBehaviour
 
         if (spawn.getCanSpawn() && !done)
         {
-            this.GetComponent<Move>().setCanMove(false);
+            this.GetComponent<Move>().enabled = false;
+
+            collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+            this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             //this.transform.position = new Vector3(this.transform.position.x, collision.collider.bounds.max.y, this.transform.position.z);
 

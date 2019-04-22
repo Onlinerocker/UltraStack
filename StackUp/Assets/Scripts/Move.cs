@@ -103,9 +103,34 @@ public class Move : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        //this.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, this.GetComponent<Rigidbody>().rotation.eulerAngles.z);
+        //this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
+    }
+
     public void setCanMove(bool val)
     {
         canMove = val;
     }
+
+
+    /*private void OnCollisionEnter(Collision collision)
+    {
+        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+        this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }
+
+    private void OnCollisionExit(Collision collision)
+    {
+        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+
+        this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+    }*/
 
 }
