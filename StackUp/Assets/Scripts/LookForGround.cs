@@ -75,13 +75,7 @@ public class LookForGround : MonoBehaviour
         {
             this.GetComponent<Move>().setCanMove(false);
 
-            collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
             //this.transform.position = new Vector3(this.transform.position.x, collision.collider.bounds.max.y, this.transform.position.z);
-
-            this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-            this.GetComponent<Rigidbody>().velocity = Vector3.zero;
 
             int rand = Random.Range(0, blocks.Length);
             int rot = Random.Range(0, 4);
