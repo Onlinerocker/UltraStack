@@ -103,7 +103,7 @@ public class LookForGround : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (spawn.getCanSpawn() && other.gameObject.tag == "ground")
+        if (other.gameObject.layer != 9 && spawn.getCanSpawn() && other.gameObject.tag == "ground")
         {
             lose = true;
             done = true;

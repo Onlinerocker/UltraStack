@@ -14,15 +14,20 @@ public class Move : MonoBehaviour
     private Vector3 sTouch;
     private Vector3 eTouch;
 
+    private bool[] canRotate = new bool[4];
+
     // Start is called before the first frame update
     void Start()
     {
         canMove = true;
         time = 0;
+
+        for (int x = 0; x < canRotate.Length; x++)
+            canRotate[x] = true;
     }
 
     // Update is called once per frame
-    void Update()
+    void LateUpdate()
     {
         if(canMove && Input.touchCount > 0)
         {
@@ -59,8 +64,14 @@ public class Move : MonoBehaviour
                 }*/
 
                 eTouch = touch.position;
-                if(canMove && Input.GetTouch(0).tapCount >= 1 && Mathf.Abs(sTouch.x - eTouch.x) <= 10)
+                float angle1 = this.transform.rotation.eulerAngles.z + 90;
+
+                if(angle1 > 360)
+                    angle1 = 0;
+
+                if (canRotate[(int)angle1 / 90] && canMove && Input.GetTouch(0).tapCount >= 1 && Mathf.Abs(sTouch.x - eTouch.x) <= 10)
                 {
+                    Debug.Log(canRotate[(int)angle1 / 90] + " " + angle1);
                     this.transform.Rotate(new Vector3(0, 0, 90), Space.World);
                 }
 
@@ -82,10 +93,17 @@ public class Move : MonoBehaviour
             }*/
         }
 
-        if (canMove && Input.GetKeyDown(KeyCode.Z))
+        float angle = this.transform.rotation.eulerAngles.z + 90;
+
+        if (angle >= 360)
+            angle = 0;
+
+        this.GetComponent<Rigidbody>().useGravity = false;
+        if (canRotate[(int)angle / 90] && canMove && Input.GetKeyDown(KeyCode.Z))
         {
             this.transform.Rotate(new Vector3(0, 0, 90), Space.World);
         }
+        this.GetComponent<Rigidbody>().useGravity = true;
 
         if (canMove && Input.GetKey(KeyCode.LeftArrow))
         {
@@ -103,34 +121,13 @@ public class Move : MonoBehaviour
         }
     }
 
-    private void LateUpdate()
-    {
-        //this.GetComponent<Rigidbody>().rotation = Quaternion.Euler(0, 0, this.GetComponent<Rigidbody>().rotation.eulerAngles.z);
-        //this.transform.position = new Vector3(this.transform.position.x, this.transform.position.y, 0);
-    }
-
     public void setCanMove(bool val)
     {
         canMove = val;
     }
 
-
-    /*private void OnCollisionEnter(Collision collision)
+    public void setCanRotate(int ind, bool val)
     {
-        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-        this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
+        canRotate[ind] = val;
     }
-
-    private void OnCollisionExit(Collision collision)
-    {
-        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        collision.gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-
-        this.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
-        this.GetComponent<Rigidbody>().velocity = Vector3.zero;
-    }*/
-
 }
