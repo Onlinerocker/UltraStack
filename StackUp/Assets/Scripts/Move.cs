@@ -66,14 +66,16 @@ public class Move : MonoBehaviour
                 eTouch = touch.position;
                 float angle1 = this.transform.rotation.eulerAngles.z + 90;
 
-                if(angle1 > 360)
+                if(angle1 >= 360)
                     angle1 = 0;
 
+                this.GetComponent<Rigidbody>().useGravity = false;
                 if (canRotate[(int)angle1 / 90] && canMove && Input.GetTouch(0).tapCount >= 1 && Mathf.Abs(sTouch.x - eTouch.x) <= 10)
                 {
                     Debug.Log(canRotate[(int)angle1 / 90] + " " + angle1);
                     this.transform.Rotate(new Vector3(0, 0, 90), Space.World);
                 }
+                this.GetComponent<Rigidbody>().useGravity = true;
 
                 time = 0;
             }
