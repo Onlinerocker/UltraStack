@@ -27,7 +27,7 @@ public class SceneHandler : MonoBehaviour
         //get rid of cubes
         //spawn new one above
         //set score to zero
-        if(adInd % 5 == 0 || adInd == 0)
+        if((adInd % 5 == 0 || adInd == 0) && Advertisement.IsReady())
         {
             ShowOptions options = new ShowOptions { resultCallback = handleShowResult };
             Advertisement.Show(options);
@@ -73,6 +73,9 @@ public class SceneHandler : MonoBehaviour
                 startGame();
                 break;
             case ShowResult.Failed:
+                startGame();
+                break;
+            default:
                 startGame();
                 break;
         }
