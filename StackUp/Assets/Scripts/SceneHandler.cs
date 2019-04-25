@@ -27,7 +27,7 @@ public class SceneHandler : MonoBehaviour
         //get rid of cubes
         //spawn new one above
         //set score to zero
-        if((adInd % 5 == 0 || adInd == 0) && Advertisement.IsReady())
+        if((adInd % 5 == 0 || adInd == 0) && Application.internetReachability != NetworkReachability.NotReachable)
         {
             ShowOptions options = new ShowOptions { resultCallback = handleShowResult };
             Advertisement.Show(options);
@@ -79,5 +79,24 @@ public class SceneHandler : MonoBehaviour
                 startGame();
                 break;
         }
+    }
+
+    private IEnumerator pingAndAd(Ping ping)
+    {
+        float time = Time.time;
+        while (!ping.isDone)
+        {
+            yield return new WaitForSeconds(0.2f);
+            if(Time.time - time > 5)
+            {
+                startGame();
+                yield return new WaitForSeconds(0);
+            }
+        }
+
+        ShowOptions options = new ShowOptions { resultCallback = handleShowResult };
+        Advertisement.Show(options);
+        yield return new WaitForSeconds(0);
+
     }
 }
