@@ -15,3 +15,13 @@ February 2019
 
 **Windows Build Instructions** \
 Requirements: Unity3D 2019.4.9f1
+* Click *add* in the Unity Hub.
+* Locate the folder you cloned this repo to.
+* Click the *StackUp* folder once.
+* While it's highlighted, click *Select Folder*
+* Now that the project has been added, select Unity Version 2019.4.9f1 in the *Unity Version* column
+* Open the project
+* Go to *File > Build Settings*
+* Select your target platform (Windows recommended, I have not tested the latest version on other platforms)
+* Click *Build* and select your build location
+* Navigate to the folder you built to and run the executable.
